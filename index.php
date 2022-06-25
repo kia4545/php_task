@@ -545,9 +545,10 @@ Common Style
     <form method="post">
         <div>
             <label for="view_id">投稿ID</label>
-            <input id="view_id" type="text" name="view_id" value="<?php if (!empty($_SESSION['view_id'])) {
-                                                                        echo htmlspecialchars($_SESSION['view_id'], ENT_QUOTES, 'UTF-8');
-                                                                    } ?>">
+            <input id="view_id" type="text" name="view_id" value="
+            <?php if (!empty($_SESSION['view_id'])) {
+                echo htmlspecialchars($_SESSION['view_id'], ENT_QUOTES, 'UTF-8');
+            } ?>">
         </div>
         <div>
             <label for="view_name">投稿者名</label>
