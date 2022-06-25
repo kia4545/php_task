@@ -515,48 +515,43 @@ Common Style
     <form method="post">
         <div>
             <label for="view_id">投稿ID</label>
-            <input id="view_id" type="text" name="view_id" value="
-            <?php if (!empty($message_date['view_id'])) {
-                echo $message_date['view_id'];
-            } elseif (!empty($view_id)) {
-                echo htmlspecialchars($view_id, ENT_QUOTES, 'UTF-8');
-            } ?>" disabled>
+            <input id="view_id" type="text" name="view_id" value=" <?php if (!empty($message_date['view_id'])) {
+                                                                        echo $message_date['view_id'];
+                                                                    } elseif (!empty($view_id)) {
+                                                                        echo htmlspecialchars($view_id, ENT_QUOTES, 'UTF-8');
+                                                                    } ?>" disabled>
         </div>
         <div>
             <label for="view_name">投稿者名</label>
-            <input id="view_name" type="text" name="view_name" value="
-            <?php if (!empty($message_date['view_name'])) {
-                echo $message_date['view_name'];
-            } elseif (!empty($view_name)) {
-                echo htmlspecialchars($view_name, ENT_QUOTES, 'UTF-8');
-            } ?>">
+            <input id="view_name" type="text" name="view_name" value="<?php if (!empty($message_date['view_name'])) {
+                                                                            echo $message_date['view_name'];
+                                                                        } elseif (!empty($view_name)) {
+                                                                            echo htmlspecialchars($view_name, ENT_QUOTES, 'UTF-8');
+                                                                        } ?>">
         </div>
         <div>
             <label for="view_title">タイトル</label>
-            <input id="view_title" type="text" name="view_title" value="
-            <?php if (!empty($message_date['view_title'])) {
-                echo $message_date['view_title'];
-            } elseif (!empty($view_title)) {
-                echo htmlspecialchars($view_title, ENT_QUOTES, 'UTF-8');
-            } ?>">
+            <input id="view_title" type="text" name="view_title" value="<?php if (!empty($message_date['view_title'])) {
+                                                                            echo $message_date['view_title'];
+                                                                        } elseif (!empty($view_title)) {
+                                                                            echo htmlspecialchars($view_title, ENT_QUOTES, 'UTF-8');
+                                                                        } ?>">
         </div>
         <div>
             <label for="message">本文</label>
-            <textarea id="message" name="message">
-                <?php if (!empty($message_date['message'])) {
-                    echo $message_date['message'];
-                } elseif (!empty($message)) {
-                    echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
-                } ?></textarea>
+            <textarea id="message" name="message"><?php if (!empty($message_date['message'])) {
+                                                        echo $message_date['message'];
+                                                    } elseif (!empty($message)) {
+                                                        echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+                                                    } ?></textarea>
         </div>
         <a class="btn_cancel" href="index.php">キャンセル</a>
         <input type="submit" name="btn_submit" value="更新">
-        <input type="hidden" name="view_id" value="
-        <?php if (!empty($message_date['view_id'])) {
-            echo $message_date['view_id'];
-        } elseif (!empty($_POST['view_id'])) {
-            echo htmlspecialchars($_POST['view_id'], ENT_QUOTES, 'UTF-8');
-        } ?>">
+        <input type="hidden" name="view_id" value="<?php if (!empty($message_date['view_id'])) {
+                                                        echo $message_date['view_id'];
+                                                    } elseif (!empty($_POST['view_id'])) {
+                                                        echo htmlspecialchars($_POST['view_id'], ENT_QUOTES, 'UTF-8');
+                                                    } ?>">
     </form>
 </body>
 
