@@ -110,9 +110,35 @@ if (!empty($_POST['btn_submit'])) {
 }
 
 if (empty($error_message)) {
-    //メッセージのデータを取得する
-    $sql = "SELECT * FROM message ORDER BY post_date DESC";
-    $message_array = $pdo->query($sql);
+    //データベース接続
+    $pdo = new PDO('mysql:charset=UTF8;dbname=' . DB_NAME . ';host=' . DB_HOST, DB_USER, DB_PASS, $option);
+
+    //GETでページ数取得
+    if (isset($_GET['page'])) {
+        $page = (int)$_GET['page'];
+    } else {
+        $page = 1;
+    }
+
+    if ($page > 1) {
+        $start = ($page * 20) - 20;
+    } else {
+        $start = 0;
+    }
+
+
+    //データ取得
+    $messages = $pdo->prepare("SELECT * FROM message ORDER BY post_date DESC LIMIT {$start}, 20");
+    $messages->execute();
+    $messages = $messages->fetchAll(PDO::FETCH_ASSOC);
+
+    //messagesテーブルのデータ件数を取得する
+    $page_num = $pdo->prepare("SELECT COUNT(*) view_id FROM message");
+    $page_num->execute();
+    $page_num = $page_num->fetchColumn();
+
+    //ページネーションの数を取得する
+    $pagination = ceil($page_num / 20);
 }
 
 //データベース接続を閉じる
@@ -166,20 +192,21 @@ $pdo = null;
     </form>
     <hr>
     <section>
-        <?php if (!empty($message_array)) : ?>
-            <?php foreach ($message_array as $value) : ?>
-                <article>
-                    <div class="info">
-                        <h2><label for="view_id">投稿ID:<?php echo nl2br(htmlspecialchars($value['view_id'], ENT_QUOTES, 'UTF-8')); ?></label></h2>
-                        <h2><label for="view_name">投稿者:<?php echo nl2br(htmlspecialchars($value['view_name'], ENT_QUOTES, 'UTF-8')); ?></h2>
-                        <time><?php echo date('Y年m月d日 H:i', strtotime($value['post_date'])); ?></time>
-                        <p><a href="edit.php?view_id=<?php echo $value['view_id']; ?>">編集</a> <a href="delete.php?view_id=<?php echo $value['view_id']; ?>">削除</a></p>
-                    </div>
-                    <p><label for="view_title">タイトル:<?php echo nl2br(htmlspecialchars($value['view_title'], ENT_QUOTES, 'UTF-8')); ?></label></p>
-                    <p><label for="message">本文:<?php echo nl2br(htmlspecialchars($value['message'], ENT_QUOTES, 'UTF-8')); ?></label></p>
-                </article>
-            <?php endforeach; ?>
-        <?php endif; ?>
+        <?php foreach ($messages as $message) : ?>
+            <article>
+                <div class="info">
+                    <h2><label for="view_id">投稿ID:<?php echo nl2br(htmlspecialchars($message['view_id'], ENT_QUOTES, 'UTF-8')); ?></label></h2>
+                    <h2><label for="view_name">投稿者:<?php echo nl2br(htmlspecialchars($message['view_name'], ENT_QUOTES, 'UTF-8')); ?></h2>
+                    <time><?php echo date('Y年m月d日 H:i', strtotime($message['post_date'])); ?></time>
+                    <p><a href="edit.php?view_id=<?php echo $message['view_id']; ?>">編集</a> <a href="delete.php?view_id=<?php echo $message['view_id']; ?>">削除</a></p>
+                </div>
+                <p><label for="view_title">タイトル:<?php echo nl2br(htmlspecialchars($message['view_title'], ENT_QUOTES, 'UTF-8')); ?></label></p>
+                <p><label for="message">本文:<?php echo nl2br(htmlspecialchars($message['message'], ENT_QUOTES, 'UTF-8')); ?></label></p>
+            </article>
+        <?php endforeach; ?>
+        <?php for ($x = 1; $x <= $pagination; $x++) { ?>
+            <a href="?page=<?php echo $x ?>"><?php echo $x; ?></a>
+        <?php } ?>
     </section>
 </body>
 
